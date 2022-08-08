@@ -9,3 +9,4 @@
 - React Native Material 
 - Google Autocomplete Place
 - Google Maps API
+- Redux Toolkit
