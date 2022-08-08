@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
 import MapScreen from "./src/screens/MapScreen";
 import SearchScreen from './src/screens/SearchScreen';
+import CobaScreen from './src/screens/CobaScreen';
 
 const App = () => {
   const Stack = createNativeStackNavigator()
@@ -30,6 +31,13 @@ const App = () => {
               headerShown: false
             }}
           />
+          {/* <Stack.Screen
+            name='CobaScreen'
+            component={CobaScreen}
+            options={{
+              headerShown: false
+            }}
+          /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

@@ -5,14 +5,27 @@ import { StyleSheet, View } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { useDispatch } from 'react-redux';
 import { setLocation } from '../redux/navSlice';
-import cl from '../utils/debug';
 
 const SearchScreen = () => {
     const navigation = useNavigation()
     const dispatch = useDispatch()
 
+    const _onPress = (data, details) => {
+        dispatch(
+            setLocation({
+                description: data.description,
+                coordinate: {
+                    latitude: details.geometry.location.lat,
+                    longitude: details.geometry.location.lng
+                },
+            })
+        )
+        navigation.navigate('MapScreen')
+    }
+
     return (
         <View>
+            {/* <TextInput autoFocus={true} /> */}
             <GooglePlacesAutocomplete
                 styles={{
                     container: {
@@ -28,20 +41,8 @@ const SearchScreen = () => {
                 nearbyPlacesAPI="GooglePlacesSearch"
                 debounce={400}
                 placeholder='Search Location ...'
-                onPress={(data, details = null) => {
-                    dispatch(
-                        setLocation({
-                            description: data.description,
-                            coordinate: {
-                                latitude: details.geometry.location.lat,
-                                longitude: details.geometry.location.lng
-                            },
-                        })
-                    )
-                    navigation.navigate('MapScreen')
-                    // cl('app > autocomp > data', data)
-                    // cl('app > autocomp > detaila', details)
-                }}
+                onPress={(data, details = null) => _onPress(data, details)}
+                textInputProps={{ autoFocus: true }}
                 fetchDetails={true}
                 returnKeyType={"search"}
                 enablePoweredByContainer={false}
