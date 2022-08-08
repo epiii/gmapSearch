@@ -1,17 +1,19 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import {
   StyleSheet
 } from 'react-native';
+import { Provider } from 'react-redux';
+import { store } from './src/redux/store';
 import MapScreen from "./src/screens/MapScreen";
 import SearchScreen from './src/screens/SearchScreen';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const App = () => {
   const Stack = createNativeStackNavigator()
 
   return (
-    <>
+    <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
@@ -30,7 +32,7 @@ const App = () => {
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </>
+    </Provider>
   );
 };
 

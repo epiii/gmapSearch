@@ -2,34 +2,52 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import { useSelector } from 'react-redux';
+import { selectLocation } from '../redux/navSlice';
 
 const MapScreen = () => {
     const navigation = useNavigation()
+    const location = useSelector(selectLocation)
+    // cl('mapscreen > coor', coordinate)
 
     return (
         <View style={styles.wrapper}>
             <MapView
                 style={styles.map}
                 initialRegion={{
-                    latitude: -7.2458404,
-                    longitude: 112.7378177,
+                    latitude: location.coordinate.latitude,
+                    longitude: location.coordinate.longitude,
+                    latitudeDelta: 0.03,
+                    longitudeDelta: 0.03
+                }}
+                // mapType='terrain'
+                region={{
+                    latitude: location.coordinate.latitude,
+                    longitude: location.coordinate.longitude,
                     latitudeDelta: 0.03,
                     longitudeDelta: 0.03
                 }}
             >
+                {/* {latitude && ( */}
                 <Marker
                     coordinate={{
-                        latitude: -7.245052805728057,
-                        longitude: 112.73764603863215
+                        latitude: location.coordinate.latitude,
+                        longitude: location.coordinate.longitude,
                     }}
+                    title={location.name}
+                    description={location.description}
+                    identifier="spot location"
                 />
+                {/* )} */}
             </MapView>
 
             <TouchableOpacity
                 onPress={() => navigation.navigate('SearchScreen')}
                 style={styles.searchBox}
             >
-                <Text style={styles.searchText}>Search Location ...</Text>
+                <Text style={styles.searchText}>
+                    {location.description ? location.description : 'Search Location ...'}
+                </Text>
             </TouchableOpacity>
 
         </View>
@@ -49,9 +67,9 @@ const styles = StyleSheet.create({
         ...StyleSheet.absoluteFillObject,
     },
     searchBox: {
-        marginTop: 40,
+        marginTop: 30,
         height: 50,
-        width: 50,
+        // width: 50,
         paddingHorizontal: 20,
         position: 'absolute',
         backgroundColor: 'white',
